@@ -3,35 +3,43 @@ using System.Collections.Generic;
 
 namespace CLI
 {
-  // The fields and methods required for a command
   public interface ICommand
   {
-    // The name to use for running this command
-    string Name { get; }
-    // The function for running this command
     void Execute();
   }
 
-  // The console application
   public class CommandManager
   {
-    private bool close = false;
-    private Dictionary<string, ICommand> commands;
+    private readonly Dictionary<string, Action> commands;
 
-    public CommandManager() {
-      commands = new Dictionary<string, ICommand>();
+    public CommandManager()
+    {
+      commands = new Dictionary<string, Action>();
     }
 
-    private static void Execute(string command)
+    public void RegisterCommands(Dictionary<string, Action> newCommands)
     {
-      // Takes a command and tries to execute the corresponding command from the command list
-      Console.WriteLine($"Executing command: {command}");
+      foreach (var command in newCommands)
+      {
+        commands[command.Key] = command.Value;
+      }
     }
 
-    // This will start querrying for commands in the terminal
-    public void Run()
+    private void TryToExecuteCommand(string commandName)
     {
-      while (!close)
+      if (commands.TryGetValue(commandName, out var command))
+      {
+        command();
+      }
+      else
+      {
+        Console.WriteLine("Command not found.");
+      }
+    }
+
+    public void WaitForCommand()
+    {
+      while (true)
       {
         Console.WriteLine("Please enter a command ('q' or 'quit' for exit):");
         var result = Console.ReadLine();
@@ -44,11 +52,10 @@ namespace CLI
 
         if (result.Equals("q") || result.Equals("quit"))
         {
-          close = true;
-          continue;
+          break;
         }
 
-        Execute(result.TrimEnd().TrimStart());
+        TryToExecuteCommand(result.TrimEnd().TrimStart());
       }
     }
   }

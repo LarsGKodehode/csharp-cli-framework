@@ -1,8 +1,13 @@
-﻿public class Application
+﻿internal class Application
 {
   public static void Main()
   {
     var console = new CLI.CommandManager();
-    console.Run();
+
+    var addons = new Addons.StringOperations();
+
+    console.RegisterCommands(addons.Commands);
+
+    console.WaitForCommand();
   }
 }
