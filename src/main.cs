@@ -8,6 +8,6 @@
 
     console.RegisterCommands(addons.Commands);
 
-    console.WaitForCommand();
+    console.AwaitInput();
   }
 }

@@ -37,7 +37,7 @@ namespace CLI
       }
     }
 
-    public void WaitForCommand()
+    public void AwaitInput()
     {
       while (true)
       {
