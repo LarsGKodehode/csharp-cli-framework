@@ -2,7 +2,9 @@
 {
   public static void Main()
   {
-    var console = new CLI.CommandManager();
+    var Logger = new Logger.Terminal();
+
+    var console = new CLI.CommandManager(Logger);
 
     var stringCommands = new Addons.StringOperations();
     console.RegisterCommands(stringCommands.Commands);

@@ -32,16 +32,16 @@ namespace Addons
     public Dictionary<string, Action> Commands => new Dictionary<string, Action>
     {
       {
-        "CommandA",
-        () => System.Console.WriteLine("Executing a command A")
+        "CommandD",
+        () => System.Console.WriteLine("Executing a command D")
       },
       {
-        "CommandB",
-        () => System.Console.WriteLine("Executing a command B")
+        "CommandE",
+        () => System.Console.WriteLine("Executing a command E")
       },
       {
-        "CommandC",
-        () => System.Console.WriteLine("Executing a command C")
+        "CommandF",
+        () => System.Console.WriteLine("Executing a command F")
       },
     };
   }

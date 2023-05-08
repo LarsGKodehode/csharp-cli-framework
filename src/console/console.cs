@@ -11,10 +11,12 @@ namespace CLI
   public class CommandManager
   {
     private readonly Dictionary<string, Action> commands;
+    private readonly Logger.ILogger IOHandler;
 
-    public CommandManager()
+    public CommandManager(Logger.ILogger logger)
     {
       commands = new Dictionary<string, Action>();
+      IOHandler = logger;
     }
 
     public void RegisterCommands(Dictionary<string, Action> newCommands)
@@ -23,7 +25,7 @@ namespace CLI
       {
         if (commands.ContainsKey(command.Key))
         {
-          
+
           throw new InvalidOperationException("Multiple commands with the same name detected! Check your addons!");
         }
         else
@@ -41,7 +43,7 @@ namespace CLI
       }
       else
       {
-        Console.WriteLine("Command not found.");
+        IOHandler.Response("Command not found.");
       }
     }
 
@@ -49,21 +51,20 @@ namespace CLI
     {
       while (true)
       {
-        Console.WriteLine("Please enter a command ('q' or 'quit' for exit):");
-        var result = Console.ReadLine();
+        IOHandler.Response("Please enter a command ('q' or 'quit' for exit):");
+        var result = IOHandler.TakeInput();
 
-        if (string.IsNullOrWhiteSpace(result))
-        {
-          Console.WriteLine("Empty command not allowed");
-          continue;
-        }
-
-        if (result.Equals("q") || result.Equals("quit"))
+        if (result.shutdown.HasValue)
         {
           break;
         }
 
-        TryToExecuteCommand(result.TrimEnd().TrimStart());
+        if (string.IsNullOrEmpty(result.value))
+        {
+          continue;
+        }
+
+        TryToExecuteCommand(result.value);
       }
     }
   }
