@@ -4,9 +4,11 @@
   {
     var console = new CLI.CommandManager();
 
-    var addons = new Addons.StringOperations();
+    var stringCommands = new Addons.StringOperations();
+    console.RegisterCommands(stringCommands.Commands);
 
-    console.RegisterCommands(addons.Commands);
+    var graphCommands = new Addons.GraphOperations();
+    console.RegisterCommands(graphCommands.Commands);
 
     console.AwaitInput();
   }

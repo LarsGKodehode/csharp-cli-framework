@@ -21,7 +21,15 @@ namespace CLI
     {
       foreach (var command in newCommands)
       {
-        commands[command.Key] = command.Value;
+        if (commands.ContainsKey(command.Key))
+        {
+          
+          throw new InvalidOperationException("Multiple commands with the same name detected! Check your addons!");
+        }
+        else
+        {
+          commands[command.Key] = command.Value;
+        }
       }
     }
 

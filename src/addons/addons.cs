@@ -3,23 +3,46 @@ using System.Collections.Generic;
 
 namespace Addons
 {
-  public class StringOperations
+  public interface IAddon
   {
-    public Dictionary<string, Action> Commands;
+    Dictionary<string, Action> Commands { get; }
+  }
 
-    public StringOperations()
+  public class StringOperations : IAddon
+  {
+    public Dictionary<string, Action> Commands => new Dictionary<string, Action>
     {
-      Commands = new Dictionary<string, Action>
-        {
-          {
-            "CommandA",
-            () => System.Console.WriteLine("Executing a command A")
-          },
-          {
-            "CommandB",
-            () => System.Console.WriteLine("Executing a command B")
-          },
-        };
-    }
+      {
+        "CommandA",
+        () => System.Console.WriteLine("Executing a command A")
+      },
+      {
+        "CommandB",
+        () => System.Console.WriteLine("Executing a command B")
+      },
+      {
+        "CommandC",
+        () => System.Console.WriteLine("Executing a command C")
+      },
+    };
+  }
+
+  public class GraphOperations : IAddon
+  {
+    public Dictionary<string, Action> Commands => new Dictionary<string, Action>
+    {
+      {
+        "CommandA",
+        () => System.Console.WriteLine("Executing a command A")
+      },
+      {
+        "CommandB",
+        () => System.Console.WriteLine("Executing a command B")
+      },
+      {
+        "CommandC",
+        () => System.Console.WriteLine("Executing a command C")
+      },
+    };
   }
 }
